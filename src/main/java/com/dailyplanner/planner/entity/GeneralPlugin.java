@@ -1,4 +1,4 @@
 package com.dailyplanner.planner.entity;
 
-public class GeneralPlugin {
+public abstract class GeneralPlugin {
 }
