@@ -1,5 +1,8 @@
 package com.dailyplanner.planner.entity;
 
+import com.dailyplanner.planner.entity.plugins.GeneralList;
+import com.dailyplanner.planner.entity.plugins.GeneralPlugin;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;

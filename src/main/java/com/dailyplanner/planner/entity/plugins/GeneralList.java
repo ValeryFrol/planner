@@ -1,8 +1,8 @@
-package com.dailyplanner.planner.entity;
+package com.dailyplanner.planner.entity.plugins;
 
 import java.util.ArrayList;
 
-public abstract class GeneralList {
+public class GeneralList {
     protected String type;
     protected ArrayList<String> items;
 
