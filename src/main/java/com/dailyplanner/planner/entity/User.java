@@ -1,20 +1,18 @@
 package com.dailyplanner.planner.entity;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.Objects;
 
 public final class User {
     private int id;
     private String name;
     private String surname;
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
     private String nickname;
     private String password;
     private String email;
     private UserAccount userAccount;
 
-    public User(int id,String name, String surname, Date dateOfBirth, String nickname, String password, String email) {
+    public User(int id,String name, String surname, LocalDate dateOfBirth, String nickname, String password, String email) {
         this.id =id; //todo when adding new user id has to be automatically calculated according to id from DB, change it when DB is ready
         this.name = name;
         this.surname = surname;
@@ -23,7 +21,14 @@ public final class User {
         this.password = password;
         this.email = email;
     }
-
+    public User(String name, String surname, LocalDate dateOfBirth, String nickname, String password, String email) {
+        this.name = name;
+        this.surname = surname;
+        this.dateOfBirth = dateOfBirth;
+        this.nickname = nickname;
+        this.password = password;
+        this.email = email;
+    }
    public String getName() {
         return name;
     }
@@ -34,7 +39,7 @@ public final class User {
         return surname;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 

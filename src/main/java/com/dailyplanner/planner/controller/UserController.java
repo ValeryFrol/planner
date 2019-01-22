@@ -19,24 +19,34 @@ public class UserController {
     @Autowired
     private UserManager userManager;
 
-    @RequestMapping(value="/username",method= RequestMethod.GET)
+   /* @RequestMapping(value="/username",method= RequestMethod.GET)
     public List<String> getAllUserNames(){
         return userManager.getAllUserNames();
-    }
+    }*/
 
     @RequestMapping(method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void addUser(@RequestBody User user){
-        userManager.addUser(user);
+    public void create(@RequestBody User user){
+        userManager.create(user);
     }
 
     @RequestMapping(value="/users",method= RequestMethod.GET)
-    public List<User> getAllUsers(){
-        return userManager.getAllUsers();
+    public List<User> getAll(){
+        return userManager.getAll();
     }
 
     @RequestMapping(value="/edit",method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
-    public void changeUser(@RequestBody User user){
-        userManager.changeUser(user);
+    public void update(@RequestBody User user){
+        userManager.update(user);
+    }
+
+    @RequestMapping(value="/user/{userId}/delete",method = RequestMethod.DELETE,consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void delete(@PathVariable("userId") int id){
+        userManager.delete(id);
+    }
+
+    @RequestMapping(value="/user/{userId}",method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
+    public User getById(@PathVariable("userId") int id){
+        return userManager.getById(id);
     }
 
 

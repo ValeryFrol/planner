@@ -11,33 +11,40 @@ import java.util.List;
 public class UserManager {
     @Autowired
     private UserDao userDao;
-    public List<String> getAllUserNames(){
-        return userDao.getAllUserNames();
+
+    /* public List<String> getAllUserNames(){
+         return userDao.getAllUserNames();
+     }*/
+    public void delete(int id) {
+        userDao.delete(id);
     }
-    public boolean removeUser(User user){
-        //todo call method from UserDao for removal
-        //todo if DB doesn't contain this user anymore return true, otherwise return false
-        //todo handle an exception when such user doesn't exist
-        return true;
-    }
-    public void changeUser(User user){
-        userDao.changeUser(user);
+
+    public void update(User user) {
+        userDao.update(user);
         //todo call method from UserDao for changing
         //todo if DB doesn't contain this user anymore return true, otherwise return false
         //todo handle an exception when such user doesn't exist and if it can't be changed
 
     }
-    public void addUser(User user){
-        userDao.addUser(user);
-      }
 
-    public List<User> getAllUsers() {
-        return userDao.getAllUsers();
+    public void create(User user) {
+        userDao.create(user);
     }
 
-       /*public User getUserById(int id){
+    public List<User> getAll() {
+        return userDao.getAll();
+    }
 
-        return user;
-    }*/
+    public User getById(int id) {
+
+        return userDao.getById(id);
+    }
+
+    public User findByEmail(String email){
+        return userDao.findByEmail(email);
+    }
+    public User findByNickname(String nickname){
+        return userDao.findByNickname(nickname);
+    }
 
 }

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class UserDao {
+public class UserDao implements DaoInterface<User> {
     /**
      * I'm autowiring jdbc template using the properties i have configured in application.properties
      * spring automatically detects and create jdbc template object using the configuration
@@ -23,29 +23,48 @@ public class UserDao {
     /**
      * @return list of User names
      */
-    public List<String> getAllUserNames() {
+   /* public List<String> getAll() {
         List<String> listOfUserNames = new ArrayList<>();
         listOfUserNames.addAll(jdbcTemplate.queryForList("select concat(Name,' ',Surname) from users;", String.class));
         return listOfUserNames;
-    }
-
-    public void addUser(User user) {
+    }*/
+    @Override
+    public void create(User user) {
         jdbcTemplate.update("INSERT INTO `dailyplanner`.`users` (`Name`,`Surname`,`Date_of_birth`,`Nickname`,`Password`,`Email`)VALUES(?,?,?,?,?,?);",
                 user.getName(), user.getSurname(), user.getDateOfBirth(), user.getNickname(), user.getPassword(), user.getEmail());
         //todo add hash of password
         //todo add check of adding when create findBy and return boolean
     }
 
-    public List<User> getAllUsers() {
-        List<User> listOfUsers = new ArrayList<>();
+    @Override
+    public void update(User user) {
+        jdbcTemplate.update("INSERT INTO `dailyplanner`.`users` (`idUser`,`Name`,`Surname`,`Date_of_birth`,`Nickname`,`Password`,`Email`)VALUES(?,?,?,?,?,?,?);",
+                user.getId(), user.getName(), user.getSurname(), user.getDateOfBirth(), user.getNickname(), user.getPassword(), user.getEmail());
+    }
+
+    @Override
+    public void delete(int id) {
+        jdbcTemplate.update("DELETE FROM `dailyplanner`.`users` where idUser=?", id);
+    }
+    @Override
+    public List<User> getAll() {
+        List<User> listOfUsers;
         listOfUsers = jdbcTemplate.query("select * from users;", new UserRowMapper());
         return listOfUsers;
     }
-    public void changeUser(User user){
-        jdbcTemplate.update("INSERT INTO `dailyplanner`.`users` (`idUser`,`Name`,`Surname`,`Date_of_birth`,`Nickname`,`Password`,`Email`)VALUES(?,?,?,?,?,?,?);",
-                user.getId(),user.getName(), user.getSurname(), user.getDateOfBirth(), user.getNickname(), user.getPassword(), user.getEmail());
+    @Override
+    public User getById(int id) {
+        return jdbcTemplate.queryForObject("SELECT * FROM `dailyplanner`.`users` WHERE idUser=?", new UserRowMapper(), id);
 
     }
+
+    public User findByEmail(String email) {
+        return jdbcTemplate.queryForObject("SELECT * FROM `dailyplanner`.`users` WHERE Email=?", new UserRowMapper(), email);
+    }
+    public User findByNickname(String nickname) {
+        return jdbcTemplate.queryForObject("SELECT * FROM `dailyplanner`.`users` WHERE Nickname=?", new UserRowMapper(), nickname);
+    }
+
 }
 
 /**
@@ -57,7 +76,7 @@ class UserRowMapper implements RowMapper<User> {
         User user = new User(rs.getInt("idUser"),
                 rs.getString("Name"),
                 rs.getString("Surname"),
-                rs.getDate("Date_of_birth"),
+                rs.getTimestamp("Date_of_birth").toLocalDateTime().toLocalDate(),
                 rs.getString("Nickname"),
                 rs.getString("Password"),
                 rs.getString("Email"));
